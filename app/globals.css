@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Базові стилі */
+html, body {
+  @apply min-h-screen overflow-x-hidden;
+  background-color: #f5f7fa;
+  color: #2c3e50;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Заголовки */
+h1, h2, h3, h4 {
+  color: #1e88e5;
+  font-weight: 600;
+}
+
+/* Посилання */
+a {
+  color: #1e88e5;
+  transition: color 0.2s ease-in-out;
+}
+a:hover {
+  color: #1565c0;
+}
+
+/* Інпути та селекти */
+input, select, textarea {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid #cfd8dc;
+  background-color: #ffffff;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: #2c3e50; /* темний текст, добре читається */
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: #1e88e5;
+  box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.3);
+  outline: none;
+}
+
+/* Кнопки */
+button {
+  border-radius: 0.5rem;
+  background-color: #43a047;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #fff;
+  transition: background-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+button:hover {
+  background-color: #388e3c;
+}
+button:disabled {
+  opacity: 0.5;
+}
+
+/* Форми як картки */
+form {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
