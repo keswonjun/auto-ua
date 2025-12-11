@@ -4,9 +4,8 @@ import { notFound } from 'next/navigation';
 
 type Params = { id: string };
 
-export default async function EditCarPage({ params }: { params: Promise<Params> }) {
-  const { id } = await params;       
-  const carId = Number(id);
+export default async function EditCarPage({ params }: { params: Params }) {
+  const carId = Number(params.id);
 
   const car = await prisma.car.findUnique({
     where: { id: carId },
@@ -17,7 +16,7 @@ export default async function EditCarPage({ params }: { params: Promise<Params> 
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">
-        Редагувати авто #{car.id} - {car.model}
+        Редагувати авто #{car.id} – {car.model}
       </h1>
       <CarForm
         initialData={{

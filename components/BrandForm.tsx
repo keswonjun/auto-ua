@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { brandSchema, type BrandInput } from '@/lib/validation';
 import { useState } from 'react';
+import { TextField, Button, Alert } from '@mui/material';
+import styles from './BrandForm.module.css';
 
 type Props = {
   initialData?: { id: number; name: string };
@@ -20,9 +22,7 @@ export function BrandForm({ initialData, onSaved }: Props) {
     reset,
   } = useForm<BrandInput>({
     resolver: zodResolver(brandSchema),
-    defaultValues: {
-      name: initialData?.name ?? '',
-    },
+    defaultValues: { name: initialData?.name ?? '' },
   });
 
   const onSubmit = async (data: BrandInput) => {
@@ -33,40 +33,31 @@ export function BrandForm({ initialData, onSaved }: Props) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(initialData ? { id: initialData.id, ...data } : data),
       });
-
       if (!res.ok) {
         const j = await res.json();
         throw new Error(j.error || 'Помилка запиту');
       }
-
       if (!initialData) reset();
       onSaved?.();
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : 'Сталася помилка';
-      setError(message);
+      setError(e instanceof Error ? e.message : 'Сталася помилка');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
-      <div>
-        <label className="block text-sm font-medium">Назва бренду</label>
-        <input
-          {...register('name')}
-          className="mt-1 w-full rounded border px-3 py-2 text-sm"
-          placeholder="Наприклад, Toyota"
-        />
-        {errors.name && (
-          <p className="mt-1 text-xs text-red-600">{errors.name.message}</p>
-        )}
-      </div>
-      {error && <p className="text-sm text-red-600">{error}</p>}
-      <button
-        disabled={isSubmitting}
-        className="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
-      >
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <TextField
+        label="Назва бренду"
+        {...register('name')}
+        error={!!errors.name}
+        helperText={errors.name?.message}
+        fullWidth
+        size="small"
+      />
+      {error && <Alert severity="error">{error}</Alert>}
+      <Button type="submit" variant="contained" color="primary" disabled={isSubmitting}>
         {initialData ? 'Зберегти зміни' : 'Додати бренд'}
-      </button>
+      </Button>
     </form>
   );
 }

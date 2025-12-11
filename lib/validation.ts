@@ -14,11 +14,12 @@ export const carSchema = z.object({
     .min(1980, 'Рік не може бути меншим за 1980')
     .max(new Date().getFullYear() + 1, 'Рік надто великий'),
 
-  price: z
-    .number()
-    .min(100, 'Ціна має бути більшою за 100'),
+  price: z.number().min(100, 'Ціна має бути більшою за 100'),
 
-  brandId: z.number(),
+  brandId: z.number().optional(),
+  brandName: z.string().optional(),
+
+  imageUrl: z.string().optional(),
 });
 
 export type CarInput = z.infer<typeof carSchema>;

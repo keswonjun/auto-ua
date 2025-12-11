@@ -14,11 +14,12 @@ model Brand {
 }
 
 model Car {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   model     String
   year      Int
   price     Int
   brandId   Int
-  brand     Brand   @relation(fields: [brandId], references: [id])
-  createdAt DateTime @default(now())
+  imageUrl  String?
+  brand     Brand?   @relation(fields: [brandId], references: [id])
+  createdAt DateTime @default(now()) 
 }

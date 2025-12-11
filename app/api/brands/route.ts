@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { brandSchema } from '@/lib/validation';
 
-// утилита для извлечения текста ошибки
 function getErrorMessage(error: unknown): string {
   if (error instanceof Error) return error.message;
   return String(error);
@@ -64,8 +63,10 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: 'id обовʼязковий' }, { status: 400 });
     }
 
-    await prisma.car.deleteMany({ where: { brandId: Number(id) } });
-    await prisma.brand.delete({ where: { id: Number(id) } });
+    await prisma.$transaction(async (tx) => {
+      await tx.car.deleteMany({ where: { brandId: Number(id) } });
+      await tx.brand.delete({ where: { id: Number(id) } });
+    });
 
     return NextResponse.json({ success: true });
   } catch (e: unknown) {

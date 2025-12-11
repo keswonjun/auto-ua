@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.error {
+  color: #d32f2f;
+}
+
+.editBox {
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
